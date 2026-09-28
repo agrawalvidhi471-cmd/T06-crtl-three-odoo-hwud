@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_coldchain_telemetry_log_user,telemetry.log.user,model_telemetry_log,base.group_user,1,1,1,1
+access_telemetry_viewer,telemetry.log.viewer,model_telemetry_log,group_coldchain_viewer,1,0,0,0
+access_telemetry_operator,telemetry.log.operator,model_telemetry_log,group_coldchain_operator,1,1,1,0
+access_telemetry_manager,telemetry.log.manager,model_telemetry_log,group_coldchain_manager,1,1,1,1
+access_spoilage_viewer,spoilage.incident.viewer,model_spoilage_incident,group_coldchain_viewer,1,0,0,0
+access_spoilage_operator,spoilage.incident.operator,model_spoilage_incident,group_coldchain_operator,1,1,1,0
+access_spoilage_manager,spoilage.incident.manager,model_spoilage_incident,group_coldchain_manager,1,1,1,1

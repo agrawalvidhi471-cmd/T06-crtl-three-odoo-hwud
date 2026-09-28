@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_picking_form_inherit_coldchain" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.coldchain</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Cold-Chain Transit Status -->
+            <xpath expr="//header" position="inside">
+                <field name="transit_monitoring_state"
+                       widget="statusbar"
+                       statusbar_visible="normal,excursion,reroute,quarantine"/>
+            </xpath>
+
+            <!-- Transport Information -->
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="vehicle_container_id"/>
+                <field name="source_warehouse"/>
+                <field name="destination_hub"/>
+                <field name="live_gps_coordinates"/>
+            </xpath>
+
+            <!-- In-Transit Telemetry -->
+            <xpath expr="//notebook" position="inside">
+                <page string="In-Transit Cold-Chain Feed"
+                      name="transit_telemetry">
+
+                    <field name="telemetry_log_ids">
+                        <list create="false"
+                              delete="false"
+                              decoration-danger="is_breach == True">
+
+                            <field name="timestamp"/>
+                            <field name="lot_id"/>
+                            <field name="recorded_temp"/>
+                            <field name="recorded_humidity"/>
+                            <field name="gps_checkpoint"/>
+                            <field name="is_breach"
+                                   column_invisible="1"/>
+
+                        </list>
+                    </field>
+
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Cron: Checks for unresponsive IoT loggers every 15 minutes -->
+       <record id="ir_cron_check_sensor_heartbeats" model="ir.cron">
+    <field name="name">Cold Chain: Sensor Heartbeat Watchdog</field>
+    <field name="model_id" ref="model_telemetry_log"/>
+    <field name="state">code</field>
+    <field name="code">model.cron_check_sensor_heartbeats()</field>
+    <field name="interval_number">15</field>
+    <field name="interval_type">minutes</field>
+    <field name="active">True</field>
+       </record>
+    </data>
+</odoo>

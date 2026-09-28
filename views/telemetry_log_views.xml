@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- List View -->
+    <record id="view_telemetry_log_list" model="ir.ui.view">
+        <field name="name">telemetry.log.list</field>
+        <field name="model">telemetry.log</field>
+        <field name="arch" type="xml">
+            <list string="Telemetry Logs" create="false" edit="false">
+                <field name="timestamp"/>
+                <field name="device_id"/>
+                <field name="lot_id"/>
+                <field name="picking_id"/>
+                <field name="recorded_temp"/>
+                <field name="temperature"/>
+                <field name="recorded_humidity"/>
+                <field name="humidity"/>
+                <field name="battery_level"/>
+                <field name="gps_checkpoint"/>
+                <field name="is_processed"/>
+                <field name="is_breach"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Graph View -->
+    <record id="view_telemetry_log_graph" model="ir.ui.view">
+        <field name="name">telemetry.log.graph</field>
+        <field name="model">telemetry.log</field>
+        <field name="arch" type="xml">
+            <graph string="Temperature Excursion Telemetry" type="line">
+                <field name="timestamp"/>
+                <field name="recorded_temp" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Action (Odoo will auto-generate the standard search view) -->
+    <record id="action_telemetry_log" model="ir.actions.act_window">
+        <field name="name">IoT Telemetry Logs</field>
+        <field name="res_model">telemetry.log</field>
+        <field name="view_mode">list,graph</field>
+        <field name="view_id" ref="view_telemetry_log_list"/>
+    </record>
+
+</odoo>

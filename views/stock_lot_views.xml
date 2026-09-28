@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Cold-Chain Lot Form -->
+    <record id="view_stock_lot_form_inherit_coldchain" model="ir.ui.view">
+        <field name="name">stock.lot.form.inherit.coldchain</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Cold-Chain Health Status -->
+            <xpath expr="//form/sheet" position="before">
+                <header>
+                    <field name="batch_health"
+                           widget="statusbar"
+                           statusbar_visible="optimal,warning,critical,compromised"/>
+                </header>
+            </xpath>
+
+            <!-- Cold-Chain Monitoring Information -->
+            <xpath expr="//sheet" position="inside">
+
+                <group string="Cold-Chain Monitoring">
+
+                    <group string="Temperature Thresholds">
+                        <field name="temp_min_c"/>
+                        <field name="temp_max_c"/>
+                        <field name="max_allowed_humidity"/>
+                    </group>
+
+                    <group string="Shelf-Life &amp; Quality">
+                        <field name="original_expiration_date"/>
+                        <field name="dynamic_expiration_date"/>
+                        <field name="cumulative_excursion_minutes"/>
+                        <field name="quality_retention_pct"
+                               widget="progressbar"/>
+                    </group>
+
+                </group>
+
+                <notebook>
+
+                    <!-- Telemetry -->
+                    <page string="Telemetry Feed" name="telemetry_logs">
+                        <field name="telemetry_log_ids">
+
+                            <list create="false"
+                                  delete="false"
+                                  decoration-danger="is_breach == True">
+
+                                <field name="timestamp"/>
+                                <field name="recorded_temp"/>
+                                <field name="recorded_humidity"/>
+                                <field name="gps_checkpoint"/>
+                                <field name="is_breach"
+                                       column_invisible="1"/>
+
+                            </list>
+
+                        </field>
+                    </page>
+
+                    <!-- Spoilage Incidents -->
+                    <page string="Spoilage Incidents"
+                          name="spoilage_incidents">
+
+                        <field name="spoilage_incident_ids">
+
+                            <list>
+
+                                <field name="name"/>
+                                <field name="detected_date"/>
+                                <field name="peak_breached_temp"/>
+                                <field name="severity_level"/>
+                                <field name="investigation_state"/>
+
+                            </list>
+
+                        </field>
+
+                    </page>
+
+                </notebook>
+
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <!-- Cold-Chain Lot List -->
+    <record id="view_stock_lot_tree_inherit_coldchain" model="ir.ui.view">
+        <field name="name">stock.lot.list.inherit.coldchain</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='product_id']" position="after">
+
+                <field name="batch_health"
+                       widget="badge"
+                       decoration-success="batch_health == 'optimal'"
+                       decoration-warning="batch_health == 'warning'"
+                       decoration-danger="batch_health in ('critical', 'compromised')"/>
+
+                <field name="dynamic_expiration_date"/>
+
+                <field name="quality_retention_pct"
+                       widget="progressbar"/>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================= -->
+    <!-- SPOILAGE INCIDENT KANBAN -->
+    <!-- ============================= -->
+
+    <record id="view_spoilage_incident_kanban" model="ir.ui.view">
+        <field name="name">spoilage.incident.kanban</field>
+        <field name="model">spoilage.incident</field>
+
+        <field name="arch" type="xml">
+            <kanban default_group_by="investigation_state"
+                    quick_create="false">
+
+                <field name="name"/>
+                <field name="lot_id"/>
+                <field name="severity_level"/>
+                <field name="peak_breached_temp"/>
+
+                <templates>
+                    <t t-name="card">
+
+                        <div class="oe_kanban_global_click p-2">
+
+                            <strong>
+                                <t t-esc="record.name.value"/>
+                            </strong>
+
+                            <div>
+                                Lot:
+                                <t t-esc="record.lot_id.value"/>
+                            </div>
+
+                            <div>
+                                Peak Temp:
+                                <t t-esc="record.peak_breached_temp.value"/> °C
+                            </div>
+
+                            <div>
+                                Severity:
+                                <t t-esc="record.severity_level.value"/>
+                            </div>
+
+                        </div>
+
+                    </t>
+                </templates>
+
+            </kanban>
+        </field>
+    </record>
+
+
+    <!-- ============================= -->
+    <!-- SPOILAGE INCIDENT FORM -->
+    <!-- ============================= -->
+
+    <record id="view_spoilage_incident_form" model="ir.ui.view">
+        <field name="name">spoilage.incident.form</field>
+        <field name="model">spoilage.incident</field>
+
+        <field name="arch" type="xml">
+
+            <form string="Spoilage Investigation">
+
+                <!-- WORKFLOW BUTTONS -->
+                <header>
+
+                    <button name="action_approve_qa"
+                            string="Move to QA Review"
+                            type="object"
+                            class="oe_highlight"
+                            invisible="investigation_state != 'logged'"/>
+
+                    <button name="action_clear"
+                            string="Clear Incident"
+                            type="object"
+                            invisible="investigation_state not in ('logged', 'qa_review')"/>
+
+                    <button name="action_discount"
+                            string="Approve Discount &amp; Reroute"
+                            type="object"
+                            class="btn-warning"
+                            invisible="investigation_state not in ('logged', 'qa_review')"/>
+
+                    <button name="action_scrap"
+                            string="Scrap Batch"
+                            type="object"
+                            class="btn-danger"
+                            invisible="investigation_state not in ('logged', 'qa_review')"/>
+
+                    <field name="investigation_state"
+                           widget="statusbar"
+                           statusbar_visible="logged,qa_review,cleared,discounted,scrapped"/>
+
+                </header>
+
+
+                <!-- MAIN FORM -->
+                <sheet>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+
+
+                    <group>
+
+                        <group string="Incident Details">
+                            <field name="lot_id"/>
+                            <field name="picking_id"/>
+                            <field name="detected_date"/>
+                        </group>
+
+                        <group string="Cold-Chain Impact">
+                            <field name="peak_breached_temp"/>
+                            <field name="excursion_duration_hours"/>
+                            <field name="severity_level"/>
+                        </group>
+
+                    </group>
+
+
+                    <notebook>
+
+                        <page string="AI Remediation Recommendation">
+
+                            <field name="ai_action_recommendation"
+                                   placeholder="AI calculation and routing suggestions will appear here..."/>
+
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+
+            </form>
+
+        </field>
+    </record>
+
+
+    <!-- ============================= -->
+    <!-- SPOILAGE INCIDENT LIST -->
+    <!-- ============================= -->
+
+    <record id="view_spoilage_incident_tree" model="ir.ui.view">
+        <field name="name">spoilage.incident.list</field>
+        <field name="model">spoilage.incident</field>
+
+        <field name="arch" type="xml">
+
+            <list string="Spoilage Incidents">
+
+                <field name="name"/>
+                <field name="lot_id"/>
+                <field name="detected_date"/>
+                <field name="peak_breached_temp"/>
+                <field name="severity_level" widget="badge"/>
+                <field name="investigation_state" widget="badge"/>
+
+            </list>
+
+        </field>
+    </record>
+
+
+    <!-- ============================= -->
+    <!-- SPOILAGE INCIDENT ACTION -->
+    <!-- ============================= -->
+
+    <record id="action_spoilage_incident" model="ir.actions.act_window">
+
+        <field name="name">Spoilage Incidents</field>
+
+        <field name="res_model">spoilage.incident</field>
+
+        <field name="view_mode">kanban,list,form</field>
+
+    </record>
+
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Main Cold-Chain Menu -->
+    <menuitem id="menu_coldchain_root"
+              name="Cold-Chain Guardian"
+              sequence="10"/>
+
+    <!-- Active Batches -->
+    <menuitem id="menu_coldchain_dashboard"
+              name="Active Batches"
+              parent="menu_coldchain_root"
+              action="action_coldchain_batches"
+              sequence="1"/>
+
+    <!-- Monitored Transits -->
+    <menuitem id="menu_coldchain_transits"
+              name="Monitored Transits"
+              parent="menu_coldchain_root"
+              action="action_coldchain_transits"
+              sequence="2"/>
+
+    <!-- Spoilage Incidents -->
+    <menuitem id="menu_coldchain_incidents"
+              name="Spoilage Pipeline"
+              parent="menu_coldchain_root"
+              action="action_spoilage_incident"
+              sequence="3"/>
+
+    <!-- Telemetry -->
+    <menuitem id="menu_coldchain_telemetry"
+              name="IoT Telemetry Logs"
+              parent="menu_coldchain_root"
+              action="action_telemetry_log"
+              sequence="4"/>
+
+</odoo>

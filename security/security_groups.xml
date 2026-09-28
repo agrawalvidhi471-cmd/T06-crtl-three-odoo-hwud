@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_coldchain_viewer" model="res.groups">
+        <field name="name">Cold-Chain Viewer</field>
+    </record>
+
+    <record id="group_coldchain_operator" model="res.groups">
+        <field name="name">Cold-Chain Operator</field>
+        <field name="implied_ids" eval="[(4, ref('group_coldchain_viewer'))]"/>
+    </record>
+
+    <record id="group_coldchain_manager" model="res.groups">
+        <field name="name">Cold-Chain Manager</field>
+        <field name="implied_ids" eval="[(4, ref('group_coldchain_operator'))]"/>
+    </record>
+
+</odoo>

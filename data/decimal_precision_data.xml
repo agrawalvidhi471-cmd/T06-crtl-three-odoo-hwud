@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="decimal_coldchain_metric" model="decimal.precision">
+            <field name="name">ColdChain Metric</field>
+            <field name="digits">2</field>
+        </record>
+    </data>
+</odoo>
